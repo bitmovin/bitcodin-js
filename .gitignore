@@ -4,3 +4,4 @@ node_modules
 debug
 test/resources/settings.json
 dist/
+reports/

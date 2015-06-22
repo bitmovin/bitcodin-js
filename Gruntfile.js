@@ -88,8 +88,30 @@ module.exports = function(grunt) {
           keepRunner: true,
           polyfills: [
             'libs/es6-promise.js'
-          ]
+          ],
+          template: require('grunt-template-jasmine-istanbul'),
+          templateOptions: {
+            coverage: 'reports/coverage.json',
+            report: [
+              {
+                type: 'lcov',
+                options: {
+                  dir: 'reports/coverage'
+                }
+              }, {
+                type: 'text-summary'
+              }
+            ]
+          },
+          junit: {
+            path: 'reports/junit'
+          }
         }
+      }
+    },
+    coveralls: {
+      all: {
+        src: 'reports/coverage/lcov.info'
       }
     }
   });
@@ -99,6 +121,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-string-replace');
+  grunt.loadNpmTasks('grunt-coveralls');
 
-  grunt.registerTask('test', ['string-replace:insertApiKey', 'concat:debug', 'jasmine:dist']);
+  grunt.registerTask('test', ['string-replace:insertApiKey', 'concat:debug', 'jasmine:dist', 'coveralls:all']);
 };
