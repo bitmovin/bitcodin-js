@@ -3,3 +3,4 @@ node_modules
 .grunt
 debug
 test/resources/settings.json
+dist/
