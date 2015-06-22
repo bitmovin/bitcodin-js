@@ -19,6 +19,7 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    settings: grunt.file.readJSON('test/resources/settings.json'),
 
     concat: {
       options: {
@@ -43,7 +44,22 @@ module.exports = function(grunt) {
         options: {
           livereload: true
         },
-        tasks: ['concat', 'jasmine:app']
+        tasks: ['test']
+      }
+    },
+    'string-replace': {
+      insertApiKey: {
+        files: {
+          'dist/': [
+            'test/**'
+          ]
+        },
+        options: {
+          replacements: [{
+            pattern: /\{\{API_KEY\}\}/ig,
+            replacement: '<%= settings.apikey %>'
+          }]
+        }
       }
     },
     jasmine: {
@@ -60,6 +76,20 @@ module.exports = function(grunt) {
             'libs/es6-promise.js'
           ]
         }
+      },
+      dist: {
+        src: [
+          'src/**/*.js'
+        ],
+        options: {
+          helpers: 'dist/test/helpers/**/*.js',
+          specs: 'dist/test/**/*Spec.js',
+          outfile: 'dist/test/SpecRunner.html',
+          keepRunner: true,
+          polyfills: [
+            'libs/es6-promise.js'
+          ]
+        }
       }
     }
   });
@@ -68,6 +98,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
+  grunt.loadNpmTasks('grunt-string-replace');
 
-  grunt.registerTask('test', ['concat:debug', 'jasmine:app']);
+  grunt.registerTask('test', ['string-replace:insertApiKey', 'concat:debug', 'jasmine:dist']);
 };
