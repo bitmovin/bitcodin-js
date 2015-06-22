@@ -52,6 +52,7 @@ module.exports = function(grunt) {
           'src/**/*.js'
         ],
         options: {
+          helpers: 'test/helpers/**/*.js',
           specs: 'test/**/*Spec.js',
           outfile: 'test/SpecRunner.html',
           keepRunner: true,
