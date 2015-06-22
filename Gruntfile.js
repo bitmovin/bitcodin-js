@@ -54,7 +54,10 @@ module.exports = function(grunt) {
         options: {
           specs: 'test/**/*Spec.js',
           outfile: 'test/SpecRunner.html',
-          keepRunner: true
+          keepRunner: true,
+          polyfills: [
+            'libs/es6-promise.js'
+          ]
         }
       }
     }
