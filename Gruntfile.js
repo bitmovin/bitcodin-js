@@ -123,5 +123,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-string-replace');
   grunt.loadNpmTasks('grunt-coveralls');
 
-  grunt.registerTask('test', ['string-replace:insertApiKey', 'concat:debug', 'jasmine:dist', 'coveralls:all']);
+  grunt.registerTask('test-with-coveralls', ['string-replace:insertApiKey', 'concat:debug', 'jasmine:dist', 'coveralls:all']);
+  grunt.registerTask('test', ['string-replace:insertApiKey', 'concat:debug', 'jasmine:dist']);
 };

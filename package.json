@@ -15,6 +15,6 @@
     "grunt-template-jasmine-istanbul": "^0.3.3"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test-with-coveralls"
   }
 }
