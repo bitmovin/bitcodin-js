@@ -14,6 +14,15 @@ var BitcodinApi = function(apiKey) {
   var API_VERSION = 'v1';
   var restClient;
 
+  var getOptionalNumberParameterAsString = function(param) {
+    if (param !== undefined && !isNaN(param)) {
+      param = '/' + param
+    } else {
+      param = ''
+    }
+    return param;
+  };
+
   // Inputs
 
   this.createInput = function(httpInputConfig) {
