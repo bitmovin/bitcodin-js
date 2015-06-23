@@ -8,6 +8,7 @@
 describe('BitcodinApiSpec', function() {
   var originalTimeout;
   var inputIds = [];
+  var outputIds = [];
   var api;
   var settings = '{{SETTINGS}}';
 
@@ -76,6 +77,16 @@ describe('BitcodinApiSpec', function() {
     }
   });
 
+  it('should create a S3 output config', function(done) {
+    var promise = api.createS3Output(settings.s3OutputEUWest);
+
+    promise.then(function(data) {
+      outputIds.push(data.outputId);
+    });
+
+    expect(promise).toBeResolved(done);
+  });
+
   it('should list outputs', function(done) {
     expect(api.listOutputs()).toBeResolved(done);
   });
@@ -83,6 +94,16 @@ describe('BitcodinApiSpec', function() {
   it('should list outputs of a given page', function(done) {
     var page = 2;
     expect(api.listOutputs(page)).toBeResolved(done);
+  });
+
+  it('should get output details for a given output id', function(done) {
+    expect(api.getOutputDetails(outputIds[0])).toBeResolved(done);
+  });
+
+  it('should delete an output for a given output id', function(done) {
+    for (var i = 0; i < outputIds.length; i++) {
+      expect(api.deleteOutput(outputIds[i])).toBeResolved(done);
+    }
   });
 
   it('should list available encoding profiles', function(done) {

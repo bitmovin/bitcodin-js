@@ -96,8 +96,18 @@ var BitcodinApi = function(apiKey) {
 
   // Output
 
+  /**
+   * Create a new Amazon S3 output
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/output/create-output/create-an-s3-output
+   *
+   * @param s3OutputConfig
+   * @returns {Promise}
+   */
   this.createS3Output = function(s3OutputConfig) {
-    return restClient.get('input/' + s3OutputConfig);
+    if (!s3OutputConfig.hasOwnProperty('type')) {
+      s3OutputConfig.type = 's3';
+    }
+    return restClient.post('output/create', s3OutputConfig);
   };
 
   this.createGCSOutput = function(gcsOutputConfig) {
@@ -120,12 +130,26 @@ var BitcodinApi = function(apiKey) {
     return restClient.get('outputs' + pageNumber);
   };
 
-  this.getOutputDetails = function() {
-    // TODO
+  /**
+   * Get output details
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/output/output-details/get-output-details
+   *
+   * @param id
+   * @returns {Promise}
+   */
+  this.getOutputDetails = function(id) {
+    return restClient.get('output/' + id);
   };
 
-  this.deleteOutput = function() {
-    // TODO
+  /**
+   * Delete an existing output
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/output/output-details/delete-output
+   *
+   * @param id
+   * @returns {Promise}
+   */
+  this.deleteOutput = function(id) {
+    return restClient.delete('output/' + id);
   };
 
   // Encoding Profiles
