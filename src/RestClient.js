@@ -36,8 +36,8 @@ var RestClient = function(baseUrl, defaultHeaders) {
     });
   };
 
-  this.get    = function(url, body) { load('get', url, body); };
-  this.post   = function(url, body) { load('post', url, body); };
-  this.patch  = function(url, body) { load('patch', url, body); };
-  this.delete = function(url, body) { load('delete', url, body); };
+  this.get    = function(url, body) { return load('get', url, body); };
+  this.post   = function(url, body) { return load('post', url, body); };
+  this.patch  = function(url, body) { return load('patch', url, body); };
+  this.delete = function(url, body) { return load('delete', url, body); };
 };
