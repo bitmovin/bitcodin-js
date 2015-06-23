@@ -72,6 +72,13 @@ var BitcodinApi = function(apiKey) {
     return restClient.get('inputs' + pageNumber);
   };
 
+  /**
+   * Get the input details for the input specified by id.
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/inputs/input-details/get-input-details
+   *
+   * @param id
+   * @returns {Promise}
+   */
   this.getInput = function(id) {
     return restClient.get('input/' + id);
   };

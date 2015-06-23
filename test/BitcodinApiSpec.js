@@ -7,7 +7,7 @@
 
 describe('BitcodinApiSpec', function() {
   var originalTimeout;
-  var inputId;
+  var inputIds = [];
   var api;
 
   beforeEach(function() {
@@ -31,14 +31,29 @@ describe('BitcodinApiSpec', function() {
   it('should create an input from a URL string', function(done) {
     var url = 'http://ftp.nluug.nl/pub/graphics/blender/demo/movies/Sintel.2010.720p.mkv';
     var promise = api.createInput(url);
+
     promise.then(function(data) {
-      inputId = data.inputId;
+      inputIds.push(data.inputId);
     });
+
+    expect(promise).toBeResolved(done);
+  });
+
+  it('should create an input from a http input config object', function(done) {
+    var httpInputConfig = {
+      url: 'http://ftp.nluug.nl/pub/graphics/blender/demo/movies/Sintel.2010.720p.mkv'
+    };
+    var promise = api.createInput(httpInputConfig);
+
+    promise.then(function(data) {
+      inputIds.push(data.inputId);
+    });
+
     expect(promise).toBeResolved(done);
   });
 
   it('should analyze an input', function(done) {
-    expect(api.analayzeInput(inputId)).toBeResolved(done);
+    expect(api.analayzeInput(inputIds[0])).toBeResolved(done);
   });
 
   it('should list available inputs', function(done) {
@@ -50,8 +65,14 @@ describe('BitcodinApiSpec', function() {
     expect(api.listInputs(page)).toBeResolved(done);
   });
 
-  it('should delete an input', function(done) {
-    expect(api.deleteInput(inputId)).toBeResolved(done);
+  it('should get input details for a given input id', function(done) {
+    expect(api.getInput(inputIds[0])).toBeResolved(done);
+  });
+
+  it('should delete inputs', function(done) {
+    for (var i = 0; i < inputIds.length; i++) {
+      expect(api.deleteInput(inputIds[i])).toBeResolved(done);
+    }
   });
 
   it('should list outputs', function(done) {
