@@ -19,7 +19,7 @@ var RestClient = function(baseUrl, defaultHeaders) {
 
       xhr.onreadystatechange = function() {
         if (this.readyState === this.DONE) {
-          if (this.status === 200) {
+          if (this.status >= 200 && this.status < 300) {
             try {
               var result = JSON.parse(this.responseText);
               resolve(result);
