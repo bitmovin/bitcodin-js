@@ -6,15 +6,21 @@
  ****************************************************************************/
 
 describe('BitcodinApiSpec', function() {
+  var originalTimeout;
   var api;
 
   beforeEach(function() {
     api = new BitcodinApi('{{API_KEY}}');
     JasminePromiseMatchers.install();
+
+    originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
   });
 
   afterEach(function() {
     JasminePromiseMatchers.uninstall();
+
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
   });
 
   it('should list available inputs', function(done) {
