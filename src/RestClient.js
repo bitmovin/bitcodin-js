@@ -36,11 +36,8 @@ var RestClient = function(baseUrl, defaultHeaders) {
     });
   };
 
-  var publicMethods = ['get', 'post', 'delete', 'patch'];
-
-  for (var i = 0; i < publicMethods.length; i++) {
-    this[publicMethods[i]] = function(url, body) {
-      return load(this, url, body);
-    }.bind(publicMethods[i]);
-  }
+  this.get    = function(url, body) { load('get', url, body); };
+  this.post   = function(url, body) { load('post', url, body); };
+  this.patch  = function(url, body) { load('patch', url, body); };
+  this.delete = function(url, body) { load('delete', url, body); };
 };
