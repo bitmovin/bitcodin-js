@@ -9,9 +9,10 @@ describe('BitcodinApiSpec', function() {
   var originalTimeout;
   var inputIds = [];
   var api;
+  var settings = '{{SETTINGS}}';
 
   beforeEach(function() {
-    api = new BitcodinApi('{{API_KEY}}');
+    api = new BitcodinApi(settings.apikey);
     JasminePromiseMatchers.install();
 
     originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;

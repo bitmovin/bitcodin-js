@@ -56,8 +56,8 @@ module.exports = function(grunt) {
         },
         options: {
           replacements: [{
-            pattern: /\{\{API_KEY\}\}/ig,
-            replacement: '<%= settings.apikey %>'
+            pattern: /'\{\{SETTINGS\}\}'/ig,
+            replacement: '<%= JSON.stringify(settings) %>'
           }]
         }
       }
