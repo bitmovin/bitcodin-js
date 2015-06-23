@@ -24,12 +24,15 @@ var BitcodinApi = function(apiKey) {
     // TODO
   };
 
+  /**
+   * List all inputs. 10 inputs per page are returned.
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/inputs/list-inputs/list-all-inputs
+   *
+   * @param {int} [pageNumber]
+   * @returns {Promise}
+   */
   this.listInputs = function(pageNumber) {
-    if (pageNumber !== undefined && !isNaN(pageNumber)) {
-      pageNumber = '/' + pageNumber
-    } else {
-      pageNumber = ''
-    }
+    pageNumber = getOptionalNumberParameterAsString(pageNumber);
     return restClient.get('inputs' + pageNumber);
   };
 
@@ -55,8 +58,16 @@ var BitcodinApi = function(apiKey) {
     // TODO
   };
 
-  this.listOutputs = function() {
-    // TODO
+  /**
+   * List existing outputs. 10 outputs per page are returned.
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/output/list-outputs/list-outputs
+   *
+   * @param {int} [pageNumber]
+   * @returns {Promise}
+   */
+  this.listOutputs = function(pageNumber) {
+    pageNumber = getOptionalNumberParameterAsString(pageNumber);
+    return restClient.get('outputs' + pageNumber);
   };
 
   this.getOutputDetails = function() {
@@ -73,8 +84,16 @@ var BitcodinApi = function(apiKey) {
     // TODO
   };
 
-  this.listEncodingProfiles = function() {
-    // TODO
+  /**
+   * List existing encoding profiles. 10 encoding profiles per page are returned.
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/encoding-profiles/list-encoding-profiles/list-encoding-profiles
+   *
+   * @param {int} [pageNumber]
+   * @returns {Promise}
+   */
+  this.listEncodingProfiles = function(pageNumber) {
+    pageNumber = getOptionalNumberParameterAsString(pageNumber);
+    return restClient.get('encoding-profiles' + pageNumber);
   };
 
   this.getEncodingProfile = function() {
@@ -87,8 +106,16 @@ var BitcodinApi = function(apiKey) {
     // TODO
   };
 
-  this.listJobs = function() {
-    // TODO
+  /**
+   *
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/jobs/list-jobs/list-all-jobs
+   *
+   * @param {int} [pageNumber]
+   * @returns {Promise}
+   */
+  this.listJobs = function(pageNumber) {
+    pageNumber = getOptionalNumberParameterAsString(pageNumber);
+    return restClient.get('jobs' + pageNumber);
   };
 
   this.getJobDetails = function() {
@@ -129,16 +156,38 @@ var BitcodinApi = function(apiKey) {
 
   // Wallet Routes
 
+  /**
+   *
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/wallet-routes/wallet/get-wallet-information
+   *
+   * @returns {Promise}
+   */
   this.getWalletInformation = function() {
-    // TODO
+    return restClient.get('wallet');
   };
 
-  this.listDeposits = function() {
-    // TODO
+  /**
+   *
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/wallet-routes/deposits/get-a-list-of-all-deposits
+   *
+   * @param {int} [pageNumber]
+   * @returns {Promise}
+   */
+  this.listDeposits = function(pageNumber) {
+    pageNumber = getOptionalNumberParameterAsString(pageNumber);
+    return restClient.get('wallet/deposits' + pageNumber);
   };
 
-  this.listBills = function() {
-    // TODO
+  /**
+   *
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/wallet-routes/bills/get-a-list-of-all-bills
+   *
+   * @param {int} [pageNumber]
+   * @returns {Promise}
+   */
+  this.listBills = function(pageNumber) {
+    pageNumber = getOptionalNumberParameterAsString(pageNumber);
+    return restClient.get('wallet/bills' + pageNumber);
   };
 
   (function() {
