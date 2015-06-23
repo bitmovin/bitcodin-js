@@ -23,6 +23,10 @@ describe('BitcodinApiSpec', function() {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
   });
 
+  it('should throw an error if no API key is given to the constructor', function() {
+    expect(BitcodinApi).toThrowError('No bitcodin API key given');
+  });
+
   it('should list available inputs', function(done) {
     expect(api.listInputs()).toBeResolved(done);
   });

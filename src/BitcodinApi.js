@@ -7,7 +7,7 @@
 
 var BitcodinApi = function(apiKey) {
   if (!apiKey || typeof apiKey !== 'string') {
-    throw new Error('No bitcodin API Key given');
+    throw new Error('No bitcodin API key given');
   }
 
   var BASE_URL = 'http://portal.bitcodin.com/api/';
