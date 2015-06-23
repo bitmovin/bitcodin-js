@@ -221,8 +221,15 @@ var BitcodinApi = function(apiKey) {
 
   // Jobs
 
-  this.createJob = function() {
-    // TODO
+  /**
+   *
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/jobs/job/create-a-job
+   *
+   * @param {Object} jobConfig
+   * @returns {Promise}
+   */
+  this.createJob = function(jobConfig) {
+    return restClient.post('job/create', jobConfig);
   };
 
   /**
@@ -237,12 +244,26 @@ var BitcodinApi = function(apiKey) {
     return restClient.get('jobs' + pageNumber);
   };
 
-  this.getJobDetails = function() {
-    // TODO
+  /**
+   *
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/jobs/job-details/get-job-details
+   *
+   * @param {int} id
+   * @returns {Promise}
+   */
+  this.getJobDetails = function(id) {
+    return restClient.get('job/' + id);
   };
 
-  this.getJobStatus = function() {
-    // TODO
+  /**
+   *
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/jobs/job-status/get-current-job-status
+   *
+   * @param {int} id
+   * @returns {Promise}
+   */
+  this.getJobStatus = function(id) {
+    return restClient.get('job/' + id + '/status');
   };
 
   this.createTransferJob = function() {

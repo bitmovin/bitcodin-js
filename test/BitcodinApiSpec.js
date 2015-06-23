@@ -10,6 +10,7 @@ describe('BitcodinApiSpec', function() {
   var inputIds = [];
   var outputIds = [];
   var encodingProfileIds = [];
+  var jobIds = [];
   var api;
   var settings = '{{SETTINGS}}';
 
@@ -42,6 +43,14 @@ describe('BitcodinApiSpec', function() {
     expect(promise).toBeResolved(done);
   });
 
+  // TODO Test content / server is needed
+  //it('should create an input from a URL string with credentials', function(done) {
+  //  var url = '';
+  //  var username = '';
+  //  var password = '';
+  //  expect(api.createInput(url, username, password)).toBeResolved(done);
+  //});
+
   it('should create an input from a http input config object', function(done) {
     var httpInputConfig = {
       url: 'http://ftp.nluug.nl/pub/graphics/blender/demo/movies/Sintel.2010.720p.mkv'
@@ -72,12 +81,6 @@ describe('BitcodinApiSpec', function() {
     expect(api.getInput(inputIds[0])).toBeResolved(done);
   });
 
-  it('should delete inputs', function(done) {
-    for (var i = 0; i < inputIds.length; i++) {
-      expect(api.deleteInput(inputIds[i])).toBeResolved(done);
-    }
-  });
-
   it('should create a S3 output config', function(done) {
     var promise = api.createS3Output(settings.s3OutputEUWest);
 
@@ -87,6 +90,17 @@ describe('BitcodinApiSpec', function() {
 
     expect(promise).toBeResolved(done);
   });
+
+  // TODO not implemented yet on the server side
+  //it('should create a Google Cloud Storage output config', function(done) {
+  //  var promise = api.createGCSOutput(settings.gcsOutputConfig);
+  //
+  //  promise.then(function(data) {
+  //    outputIds.push(data.outputId);
+  //  });
+  //
+  //  expect(promise).toBeResolved(done);
+  //});
 
   it('should create a FTP output config', function(done) {
     var ftpOutputConfig = settings.ftpOutput;
@@ -110,12 +124,6 @@ describe('BitcodinApiSpec', function() {
 
   it('should get output details for a given output id', function(done) {
     expect(api.getOutputDetails(outputIds[0])).toBeResolved(done);
-  });
-
-  it('should delete an output for a given output id', function(done) {
-    for (var i = 0; i < outputIds.length; i++) {
-      expect(api.deleteOutput(outputIds[i])).toBeResolved(done);
-    }
   });
 
   it('should create a new encoding profile', function(done) {
@@ -160,10 +168,22 @@ describe('BitcodinApiSpec', function() {
     expect(api.getEncodingProfile(encodingProfileIds[0])).toBeResolved(done);
   });
 
-  it('should delete encoding profiles', function(done) {
-    for (var i = 0; i < encodingProfileIds.length; i++) {
-      expect(api.deleteEncodingProfile(encodingProfileIds[i])).toBeResolved(done);
-    }
+  it('should create a new job', function(done) {
+    var jobConfig = {
+      'inputId': inputIds[0],
+      'encodingProfileId': encodingProfileIds[0],
+      'manifestTypes': [
+        'mpd',
+        'm3u8'
+      ]
+    };
+    var promise = api.createJob(jobConfig);
+
+    promise.then(function(data) {
+      jobIds.push(data.jobId);
+    });
+
+    expect(promise).toBeResolved(done);
   });
 
   it('should list jobs', function(done) {
@@ -175,6 +195,13 @@ describe('BitcodinApiSpec', function() {
     expect(api.listJobs(page)).toBeResolved(done);
   });
 
+  it('should get the job details for a given job id', function(done) {
+    expect(api.getJobDetails(jobIds[0])).toBeResolved(done);
+  });
+
+  it('should get the job status for a given job id', function(done) {
+    expect(api.getJobStatus(jobIds[0])).toBeResolved(done);
+  });
 
   it('should update invoice information', function(done) {
     var invoiceInfo = {
@@ -223,5 +250,23 @@ describe('BitcodinApiSpec', function() {
   it('should list bills of a given page', function(done) {
     var page = 2;
     expect(api.listBills(page)).toBeResolved(done);
+  });
+
+  it('should delete inputs', function(done) {
+    for (var i = 0; i < inputIds.length; i++) {
+      expect(api.deleteInput(inputIds[i])).toBeResolved(done);
+    }
+  });
+
+  it('should delete an output for a given output id', function(done) {
+    for (var i = 0; i < outputIds.length; i++) {
+      expect(api.deleteOutput(outputIds[i])).toBeResolved(done);
+    }
+  });
+
+  it('should delete encoding profiles', function(done) {
+    for (var i = 0; i < encodingProfileIds.length; i++) {
+      expect(api.deleteEncodingProfile(encodingProfileIds[i])).toBeResolved(done);
+    }
   });
 });
