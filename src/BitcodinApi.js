@@ -266,22 +266,50 @@ var BitcodinApi = function(apiKey) {
     return restClient.get('job/' + id + '/status');
   };
 
-  this.createTransferJob = function() {
-    // TODO
+  /**
+   *
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/jobs/transfer-job/create-a-transfer-job
+   *
+   * @param {Object} transferJobConfig
+   * @returns {Promise}
+   */
+  this.createTransferJob = function(transferJobConfig) {
+    return restClient.post('job/transfer', transferJobConfig);
   };
 
-  this.listTransferJob = function() {
-    // TODO
+  /**
+   *
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/jobs/list-transfer-jobs/list-a-transfer-job
+   *
+   * @param {int} id
+   * @returns {Promise}
+   */
+  this.listTransferJob = function(id) {
+    return restClient.get('job/' + id + '/transfers');
   };
 
   // Statistics
 
+  /**
+   *
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/statistics/statistics/get-current-output-status
+   *
+   * @returns {Promise}
+   */
   this.getOutputStatistics = function() {
-    // TODO
+    return restClient.get('statistics');
   };
 
-  this.getJobStatistics = function() {
-    // TODO
+  /**
+   *
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/statistics/jobs/get-job-statistics-in-given-time-window
+   *
+   * @param {String} from
+   * @param {String} to
+   * @returns {Promise}
+   */
+  this.getJobStatistics = function(from, to) {
+    return restClient.get('statistics/jobs/' + from + '/' + to);
   };
 
   // Payment Routes
