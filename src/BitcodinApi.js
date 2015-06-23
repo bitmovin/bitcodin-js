@@ -110,9 +110,19 @@ var BitcodinApi = function(apiKey) {
     return restClient.post('output/create', s3OutputConfig);
   };
 
-  this.createGCSOutput = function(gcsOutputConfig) {
-    return restClient.get('input/' + gcsOutputConfig);
-  };
+  /**
+   * Create a new Google Cloud Storage (GCS) output
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/output/create-output/create-an-gcs-output
+   *
+   * @param {Object} gcsOutputConfig
+   * @returns {Promise}
+   */
+  //this.createGCSOutput = function(gcsOutputConfig) {
+  //  if (!gcsOutputConfig.hasOwnProperty('type')) {
+  //    gcsOutputConfig.type = 'gcs';
+  //  }
+  //  return restClient.post('output/create', gcsOutputConfig);
+  //};
 
   this.createFTPOutput = function() {
     // TODO
@@ -134,7 +144,7 @@ var BitcodinApi = function(apiKey) {
    * Get output details
    * @link http://docs.bitcodinrestapi.apiary.io/reference/output/output-details/get-output-details
    *
-   * @param id
+   * @param {int} id
    * @returns {Promise}
    */
   this.getOutputDetails = function(id) {
@@ -145,7 +155,7 @@ var BitcodinApi = function(apiKey) {
    * Delete an existing output
    * @link http://docs.bitcodinrestapi.apiary.io/reference/output/output-details/delete-output
    *
-   * @param id
+   * @param {int} id
    * @returns {Promise}
    */
   this.deleteOutput = function(id) {
@@ -154,8 +164,15 @@ var BitcodinApi = function(apiKey) {
 
   // Encoding Profiles
 
-  this.createEncodingProfile = function() {
-    // TODO
+  /**
+   * Create a new encoding profile
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/encoding-profiles/create-encoding-profiles/create-an-encoding-profile
+   *
+   * @param {Object} encodingProfile
+   * @returns {Promise}
+   */
+  this.createEncodingProfile = function(encodingProfile) {
+    return restClient.post('encoding-profile/create', encodingProfile);
   };
 
   /**
@@ -170,8 +187,26 @@ var BitcodinApi = function(apiKey) {
     return restClient.get('encoding-profiles' + pageNumber);
   };
 
-  this.getEncodingProfile = function() {
-    // TODO
+  /**
+   * Get encoding profile details.
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/encoding-profiles/get-encoding-profile/get-specific-encoding-profile
+   *
+   * @param {int} id
+   * @returns {Promise}
+   */
+  this.getEncodingProfile = function(id) {
+    return restClient.get('encoding-profile/' + id);
+  };
+
+  /**
+   * Delete an encoding profile.
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/encoding-profiles/get-encoding-profile/get-specific-encoding-profile
+   *
+   * @param {int} id
+   * @returns {Promise}
+   */
+  this.deleteEncodingProfile = function(id) {
+    return restClient.delete('encoding-profile/' + id);
   };
 
   // Jobs
@@ -224,7 +259,7 @@ var BitcodinApi = function(apiKey) {
    *
    * @link http://docs.bitcodinrestapi.apiary.io/reference/payment-routes/invoice-info/update-invoice-infos
    *
-   * @param invoiceInfo
+   * @param {Object} invoiceInfo
    * @returns {Promise}
    */
   this.updateInvoiceInfos = function(invoiceInfo) {

@@ -9,6 +9,7 @@ describe('BitcodinApiSpec', function() {
   var originalTimeout;
   var inputIds = [];
   var outputIds = [];
+  var encodingProfileIds = [];
   var api;
   var settings = '{{SETTINGS}}';
 
@@ -106,6 +107,35 @@ describe('BitcodinApiSpec', function() {
     }
   });
 
+  it('should create a new encoding profile', function(done) {
+    var encodingProfile = {
+      "name": "bitcodin Encoding Profile",
+      "videoStreamConfigs": [
+        {
+          "defaultStreamId": 0,
+          "bitrate": 1024000,
+          "profile": "Main",
+          "preset": "Standard",
+          "height": 480,
+          "width": 204
+        }
+      ],
+      "audioStreamConfigs": [
+        {
+          "defaultStreamId": 0,
+          "bitrate": 256000
+        }
+      ]
+    };
+    var promise = api.createEncodingProfile(encodingProfile);
+
+    promise.then(function(data) {
+      encodingProfileIds.push(data.encodingProfileId);
+    });
+
+    expect(promise).toBeResolved(done);
+  });
+
   it('should list available encoding profiles', function(done) {
     expect(api.listEncodingProfiles()).toBeResolved(done);
   });
@@ -113,6 +143,16 @@ describe('BitcodinApiSpec', function() {
   it('should list available encoding profiles of a given page', function(done) {
     var page = 2;
     expect(api.listEncodingProfiles(page)).toBeResolved(done);
+  });
+
+  it('should get the encoding profile for a given id', function(done) {
+    expect(api.getEncodingProfile(encodingProfileIds[0])).toBeResolved(done);
+  });
+
+  it('should delete encoding profiles', function(done) {
+    for (var i = 0; i < encodingProfileIds.length; i++) {
+      expect(api.deleteEncodingProfile(encodingProfileIds[i])).toBeResolved(done);
+    }
   });
 
   it('should list jobs', function(done) {
