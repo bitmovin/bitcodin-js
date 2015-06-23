@@ -25,12 +25,39 @@ var BitcodinApi = function(apiKey) {
 
   // Inputs
 
-  this.createInput = function(httpInputConfig) {
-    return restClient.post('input/create', httpInputConfig);
+  /**
+   * Create a new input.
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/inputs/create-inputs/create-an-input
+   *
+   * @param {String | Object} source The URL as string, or a HTTP input config object
+   * @param {String} [username] Basic Auth username
+   * @param {String} [password] Basic Auth password
+   * @returns {Promise}
+   */
+  this.createInput = function(source, username, password) {
+    if (typeof source === 'string') {
+      source = {
+        "url" : source
+      };
+
+      if (username && password) {
+        source.username = username;
+        source.password = password;
+      }
+    }
+
+    return restClient.post('input/create', source);
   };
 
-  this.analayzeInput = function() {
-    // TODO
+  /**
+   * Anaylize an existing input.
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/inputs/analyze-inputs/analyze-an-input
+   *
+   * @param {int} id
+   * @returns {Promise}
+   */
+  this.analayzeInput = function(id) {
+    return restClient.patch('input/' + id + '/analyze');
   };
 
   /**
@@ -49,6 +76,13 @@ var BitcodinApi = function(apiKey) {
     return restClient.get('input/' + id);
   };
 
+  /**
+   * Delete the input specified by id
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/inputs/input-details/delete-input
+   *
+   * @param id
+   * @returns {Promise}
+   */
   this.deleteInput = function(id) {
     return restClient.delete('input/' + id);
   };

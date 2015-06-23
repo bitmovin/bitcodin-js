@@ -7,6 +7,7 @@
 
 describe('BitcodinApiSpec', function() {
   var originalTimeout;
+  var inputId;
   var api;
 
   beforeEach(function() {
@@ -27,6 +28,19 @@ describe('BitcodinApiSpec', function() {
     expect(BitcodinApi).toThrowError('No bitcodin API key given');
   });
 
+  it('should create an input from a URL string', function(done) {
+    var url = 'http://ftp.nluug.nl/pub/graphics/blender/demo/movies/Sintel.2010.720p.mkv';
+    var promise = api.createInput(url);
+    promise.then(function(data) {
+      inputId = data.inputId;
+    });
+    expect(promise).toBeResolved(done);
+  });
+
+  it('should analyze an input', function(done) {
+    expect(api.analayzeInput(inputId)).toBeResolved(done);
+  });
+
   it('should list available inputs', function(done) {
     expect(api.listInputs()).toBeResolved(done);
   });
@@ -34,6 +48,10 @@ describe('BitcodinApiSpec', function() {
   it('should list available inputs of a given page', function(done) {
     var page = 2;
     expect(api.listInputs(page)).toBeResolved(done);
+  });
+
+  it('should delete an input', function(done) {
+    expect(api.deleteInput(inputId)).toBeResolved(done);
   });
 
   it('should list outputs', function(done) {
