@@ -59,6 +59,34 @@ describe('BitcodinApiSpec', function() {
     expect(api.listJobs(page)).toBeResolved(done);
   });
 
+
+  it('should update invoice information', function(done) {
+    var invoiceInfo = {
+      'companyName': 'bitmovin GmbH',
+      'firstName': 'Stefan',
+      'lastName': 'Lederer',
+      'address': 'Lakeside B01',
+      'addressLineOptional': '',
+      'postalCode': 9020,
+      'city': 'Klagenfurt',
+      'country': 'Austria',
+      'vatNumber': 'ATU68021428'
+    };
+    expect(api.updateInvoiceInfos(invoiceInfo)).toBeResolved(done);
+  });
+
+  it('should get the invoice information', function(done) {
+    expect(api.getInvoiceInfos()).toBeResolvedWith(jasmine.objectContaining({
+      'firstName': 'Stefan',
+      'lastName': 'Lederer',
+      'address': 'Lakeside B01',
+      'postalCode': 9020,
+      'city': 'Klagenfurt',
+      'country': 'Austria',
+      'vatNumber': 'ATU68021428'
+    }), done);
+  });
+
   it('should get the wallet information', function(done) {
     expect(api.getWalletInformation()).toBeResolved(done);
   });

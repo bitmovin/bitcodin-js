@@ -155,12 +155,25 @@ var BitcodinApi = function(apiKey) {
 
   // Payment Routes
 
-  this.updateInvoiceInfos = function() {
-    // TODO
+  /**
+   *
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/payment-routes/invoice-info/update-invoice-infos
+   *
+   * @param invoiceInfo
+   * @returns {Promise}
+   */
+  this.updateInvoiceInfos = function(invoiceInfo) {
+    return restClient.post('payment/invoiceinfo', invoiceInfo);
   };
 
+  /**
+   *
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/payment-routes/invoice-info/get-invoice-infos
+   *
+   * @returns {Promise}
+   */
   this.getInvoiceInfos = function() {
-    // TODO
+    return restClient.get('payment/invoiceinfo');
   };
 
   // Wallet Routes
