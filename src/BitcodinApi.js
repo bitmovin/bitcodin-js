@@ -76,7 +76,7 @@ var BitcodinApi = function(apiKey) {
    * Get the input details for the input specified by id.
    * @link http://docs.bitcodinrestapi.apiary.io/reference/inputs/input-details/get-input-details
    *
-   * @param id
+   * @param {int} id
    * @returns {Promise}
    */
   this.getInput = function(id) {
@@ -87,7 +87,7 @@ var BitcodinApi = function(apiKey) {
    * Delete the input specified by id
    * @link http://docs.bitcodinrestapi.apiary.io/reference/inputs/input-details/delete-input
    *
-   * @param id
+   * @param {int} id
    * @returns {Promise}
    */
   this.deleteInput = function(id) {
@@ -100,7 +100,7 @@ var BitcodinApi = function(apiKey) {
    * Create a new Amazon S3 output
    * @link http://docs.bitcodinrestapi.apiary.io/reference/output/create-output/create-an-s3-output
    *
-   * @param s3OutputConfig
+   * @param {Object} s3OutputConfig
    * @returns {Promise}
    */
   this.createS3Output = function(s3OutputConfig) {
@@ -124,8 +124,18 @@ var BitcodinApi = function(apiKey) {
   //  return restClient.post('output/create', gcsOutputConfig);
   //};
 
-  this.createFTPOutput = function() {
-    // TODO
+  /**
+   * Create a new FTP output
+   * @link http://docs.bitcodinrestapi.apiary.io/reference/output/create-output/create-an-ftp-output
+   *
+   * @param {Object} ftpOutputConfig
+   * @returns {Promise}
+   */
+  this.createFTPOutput = function(ftpOutputConfig) {
+    if (!ftpOutputConfig.hasOwnProperty('type')) {
+      ftpOutputConfig.type = 'ftp';
+    }
+    return restClient.post('output/create', ftpOutputConfig);
   };
 
   /**

@@ -88,6 +88,17 @@ describe('BitcodinApiSpec', function() {
     expect(promise).toBeResolved(done);
   });
 
+  it('should create a FTP output config', function(done) {
+    var ftpOutputConfig = settings.ftpOutput;
+    var promise = api.createFTPOutput(ftpOutputConfig);
+
+    promise.then(function(data) {
+      outputIds.push(data.outputId);
+    });
+
+    expect(promise).toBeResolved(done);
+  });
+
   it('should list outputs', function(done) {
     expect(api.listOutputs()).toBeResolved(done);
   });
