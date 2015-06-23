@@ -27,7 +27,11 @@ var RestClient = function(baseUrl, defaultHeaders) {
               reject('parse error');
             }
           } else {
-            reject(method + ': `' + baseUrl + url + '` failed with status: [' + this.status + ']');
+            if (this.responseText) {
+              reject(this.responseText);
+            } else {
+              reject(method + ': `' + baseUrl + url + '` failed with status: [' + this.status + ']');
+            }
           }
         }
       };
