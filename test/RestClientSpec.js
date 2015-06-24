@@ -46,4 +46,11 @@ describe('RestClientSpec', function() {
 
     expect(client.get(url)).toBeRejectedWith(expectedResult, done);
   });
+
+  it('should reject a not existing URL w/o JSON object with the response message', function(done) {
+    var url = 'test';
+    client = new RestClient('http://www.bitcodin.com/');
+
+    expect(client.get(url)).toBeRejected(done);
+  });
 });
