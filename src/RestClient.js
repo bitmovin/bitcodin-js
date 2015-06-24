@@ -21,14 +21,21 @@ var RestClient = function(baseUrl, defaultHeaders) {
         if (this.readyState === this.DONE) {
           if (this.status >= 200 && this.status < 300) {
             if (this.responseText) {
-              var result = JSON.parse(this.responseText);
-              resolve(result);
+              try {
+                resolve(JSON.parse(this.responseText));
+              } catch (e) {
+                resolve(this.responseText);
+              }
             } else {
               resolve();
             }
           } else {
             if (this.responseText) {
-              reject(this.responseText);
+              try {
+                reject(JSON.parse(this.responseText));
+              } catch (e) {
+                reject(this.responseText);
+              }
             } else {
               reject(method + ': `' + baseUrl + url + '` failed with status: [' + this.status + ']');
             }
