@@ -203,6 +203,28 @@ describe('BitcodinApiSpec', function() {
     expect(api.getJobStatus(jobIds[0])).toBeResolved(done);
   });
 
+  it('should create a new transfer job', function(done) {
+    var transferJobConfig = {
+      'jobId': 2846,
+      'outputId': outputIds[0]
+    };
+    expect(api.createTransferJob(transferJobConfig)).toBeResolved(done);
+  });
+
+  it('should get the transfer job details for a given id', function(done) {
+    expect(api.listTransferJob(2846)).toBeResolved(done);
+  });
+
+  it('should get the output statistics for the current calendar month', function(done) {
+    expect(api.getOutputStatistics()).toBeResolved(done);
+  });
+
+  it('should get the job statistics for the given time window', function(done) {
+    var from = '2000-12-24';
+    var to   = '2100-12-24';
+    expect(api.getJobStatistics(from, to)).toBeResolved(done);
+  });
+
   it('should update invoice information', function(done) {
     var invoiceInfo = {
       'companyName': 'bitmovin GmbH',
