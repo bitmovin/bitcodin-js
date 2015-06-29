@@ -24,14 +24,18 @@ module.exports = function(grunt) {
 
     concat: {
       options: {
-        separator: ';\n',
+        separator: '\n',
         banner: header + '\n(function(global) {\n',
-        footer: 'global.Bitcodin = Bitcodin;\n})(this);',
+        footer: '\n})(this);',
         stripBanners: true
       },
       debug: {
-        src: 'src/**/*.js',
-        dest: 'debug/<%= pkg.name %>.js'
+        src: [
+          'src/RestClient.js',
+          'src/Bitcodin.js',
+          'src/Export.js'
+        ],
+        dest: 'bin/bitcodin.js'
       }
     },
     watch: {
