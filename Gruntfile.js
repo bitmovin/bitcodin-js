@@ -25,7 +25,7 @@ module.exports = function(grunt) {
       options: {
         separator: ';\n',
         banner: header + '\n(function(global) {\n',
-        footer: 'global.BitcodinApi = BitcodinApi;\n})(this);',
+        footer: 'global.Bitcodin = Bitcodin;\n})(this);',
         stripBanners: true
       },
       debug: {

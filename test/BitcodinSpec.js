@@ -5,17 +5,17 @@
  * and conditions of the applicable license agreement.
  ****************************************************************************/
 
-describe('BitcodinApiSpec', function() {
+describe('BitcodinSpec', function() {
   var originalTimeout;
   var inputIds = [];
   var outputIds = [];
   var encodingProfileIds = [];
   var jobIds = [];
-  var api;
+  var bitcodin;
   var settings = '{{SETTINGS}}';
 
   beforeEach(function() {
-    api = new BitcodinApi(settings.apikey);
+    bitcodin = new Bitcodin(settings.apikey);
     JasminePromiseMatchers.install();
 
     originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
@@ -29,12 +29,12 @@ describe('BitcodinApiSpec', function() {
   });
 
   it('should throw an error if no API key is given to the constructor', function() {
-    expect(BitcodinApi).toThrowError('No bitcodin API key given');
+    expect(Bitcodin).toThrowError('No bitcodin API key given');
   });
 
   it('should create an input from a URL string', function(done) {
     var url = 'http://ftp.nluug.nl/pub/graphics/blender/demo/movies/Sintel.2010.720p.mkv';
-    var promise = api.createInput(url);
+    var promise = bitcodin.input.create(url);
 
     promise.then(function(data) {
       inputIds.push(data.inputId);
@@ -48,14 +48,14 @@ describe('BitcodinApiSpec', function() {
   //  var url = '';
   //  var username = '';
   //  var password = '';
-  //  expect(api.createInput(url, username, password)).toBeResolved(done);
+  //  expect(bitcodin.input.create(url, username, password)).toBeResolved(done);
   //});
 
   it('should create an input from a http input config object', function(done) {
     var httpInputConfig = {
       url: 'http://ftp.nluug.nl/pub/graphics/blender/demo/movies/Sintel.2010.720p.mkv'
     };
-    var promise = api.createInput(httpInputConfig);
+    var promise = bitcodin.input.create(httpInputConfig);
 
     promise.then(function(data) {
       inputIds.push(data.inputId);
@@ -65,24 +65,24 @@ describe('BitcodinApiSpec', function() {
   });
 
   it('should analyze an input', function(done) {
-    expect(api.analayzeInput(inputIds[0])).toBeResolved(done);
+    expect(bitcodin.input.analayze(inputIds[0])).toBeResolved(done);
   });
 
   it('should list available inputs', function(done) {
-    expect(api.listInputs()).toBeResolved(done);
+    expect(bitcodin.input.list()).toBeResolved(done);
   });
 
   it('should list available inputs of a given page', function(done) {
     var page = 2;
-    expect(api.listInputs(page)).toBeResolved(done);
+    expect(bitcodin.input.list(page)).toBeResolved(done);
   });
 
   it('should get input details for a given input id', function(done) {
-    expect(api.getInput(inputIds[0])).toBeResolved(done);
+    expect(bitcodin.input.get(inputIds[0])).toBeResolved(done);
   });
 
   it('should create a S3 output config', function(done) {
-    var promise = api.createS3Output(settings.s3OutputEUWest);
+    var promise = bitcodin.output.s3.create(settings.s3OutputEUWest);
 
     promise.then(function(data) {
       outputIds.push(data.outputId);
@@ -93,7 +93,7 @@ describe('BitcodinApiSpec', function() {
 
   // TODO not implemented yet on the server side
   //it('should create a Google Cloud Storage output config', function(done) {
-  //  var promise = api.createGCSOutput(settings.gcsOutputConfig);
+  //  var promise = bitcodin.output.gcs.create(settings.gcsOutputConfig);
   //
   //  promise.then(function(data) {
   //    outputIds.push(data.outputId);
@@ -104,7 +104,7 @@ describe('BitcodinApiSpec', function() {
 
   it('should create a FTP output config', function(done) {
     var ftpOutputConfig = settings.ftpOutput;
-    var promise = api.createFTPOutput(ftpOutputConfig);
+    var promise = bitcodin.output.ftp.create(ftpOutputConfig);
 
     promise.then(function(data) {
       outputIds.push(data.outputId);
@@ -114,16 +114,16 @@ describe('BitcodinApiSpec', function() {
   });
 
   it('should list outputs', function(done) {
-    expect(api.listOutputs()).toBeResolved(done);
+    expect(bitcodin.output.list()).toBeResolved(done);
   });
 
   it('should list outputs of a given page', function(done) {
     var page = 2;
-    expect(api.listOutputs(page)).toBeResolved(done);
+    expect(bitcodin.output.list(page)).toBeResolved(done);
   });
 
   it('should get output details for a given output id', function(done) {
-    expect(api.getOutputDetails(outputIds[0])).toBeResolved(done);
+    expect(bitcodin.output.getDetails(outputIds[0])).toBeResolved(done);
   });
 
   it('should create a new encoding profile', function(done) {
@@ -146,7 +146,7 @@ describe('BitcodinApiSpec', function() {
         }
       ]
     };
-    var promise = api.createEncodingProfile(encodingProfile);
+    var promise = bitcodin.encodingProfile.create(encodingProfile);
 
     promise.then(function(data) {
       encodingProfileIds.push(data.encodingProfileId);
@@ -156,16 +156,16 @@ describe('BitcodinApiSpec', function() {
   });
 
   it('should list available encoding profiles', function(done) {
-    expect(api.listEncodingProfiles()).toBeResolved(done);
+    expect(bitcodin.encodingProfile.list()).toBeResolved(done);
   });
 
   it('should list available encoding profiles of a given page', function(done) {
     var page = 2;
-    expect(api.listEncodingProfiles(page)).toBeResolved(done);
+    expect(bitcodin.encodingProfile.list(page)).toBeResolved(done);
   });
 
   it('should get the encoding profile for a given id', function(done) {
-    expect(api.getEncodingProfile(encodingProfileIds[0])).toBeResolved(done);
+    expect(bitcodin.encodingProfile.get(encodingProfileIds[0])).toBeResolved(done);
   });
 
   it('should create a new job', function(done) {
@@ -177,7 +177,7 @@ describe('BitcodinApiSpec', function() {
         'm3u8'
       ]
     };
-    var promise = api.createJob(jobConfig);
+    var promise = bitcodin.job.create(jobConfig);
 
     promise.then(function(data) {
       jobIds.push(data.jobId);
@@ -187,20 +187,20 @@ describe('BitcodinApiSpec', function() {
   });
 
   it('should list jobs', function(done) {
-    expect(api.listJobs()).toBeResolved(done);
+    expect(bitcodin.job.list()).toBeResolved(done);
   });
 
   it('should list jobs of a given page', function(done) {
     var page = 2;
-    expect(api.listJobs(page)).toBeResolved(done);
+    expect(bitcodin.job.list(page)).toBeResolved(done);
   });
 
   it('should get the job details for a given job id', function(done) {
-    expect(api.getJobDetails(jobIds[0])).toBeResolved(done);
+    expect(bitcodin.job.getDetails(jobIds[0])).toBeResolved(done);
   });
 
   it('should get the job status for a given job id', function(done) {
-    expect(api.getJobStatus(jobIds[0])).toBeResolved(done);
+    expect(bitcodin.job.getStatus(jobIds[0])).toBeResolved(done);
   });
 
   it('should create a new transfer job', function(done) {
@@ -208,21 +208,21 @@ describe('BitcodinApiSpec', function() {
       'jobId': 2846,
       'outputId': outputIds[0]
     };
-    expect(api.createTransferJob(transferJobConfig)).toBeResolved(done);
+    expect(bitcodin.job.transfer.create(transferJobConfig)).toBeResolved(done);
   });
 
   it('should get the transfer job details for a given id', function(done) {
-    expect(api.listTransferJob(2846)).toBeResolved(done);
+    expect(bitcodin.job.transfer.list(2846)).toBeResolved(done);
   });
 
   it('should get the output statistics for the current calendar month', function(done) {
-    expect(api.getOutputStatistics()).toBeResolved(done);
+    expect(bitcodin.statistic.get()).toBeResolved(done);
   });
 
   it('should get the job statistics for the given time window', function(done) {
     var from = '2000-12-24';
     var to   = '2100-12-24';
-    expect(api.getJobStatistics(from, to)).toBeResolved(done);
+    expect(bitcodin.statistic.jobs(from, to)).toBeResolved(done);
   });
 
   it('should update invoice information', function(done) {
@@ -237,11 +237,11 @@ describe('BitcodinApiSpec', function() {
       'country': 'Austria',
       'vatNumber': 'ATU68021428'
     };
-    expect(api.updateInvoiceInfos(invoiceInfo)).toBeResolved(done);
+    expect(bitcodin.payment.invoice.updateInfo(invoiceInfo)).toBeResolved(done);
   });
 
   it('should get the invoice information', function(done) {
-    expect(api.getInvoiceInfos()).toBeResolvedWith(jasmine.objectContaining({
+    expect(bitcodin.payment.invoice.getInfo()).toBeResolvedWith(jasmine.objectContaining({
       'firstName': 'Stefan',
       'lastName': 'Lederer',
       'address': 'Lakeside B01',
@@ -253,42 +253,42 @@ describe('BitcodinApiSpec', function() {
   });
 
   it('should get the wallet information', function(done) {
-    expect(api.getWalletInformation()).toBeResolved(done);
+    expect(bitcodin.wallet.get()).toBeResolved(done);
   });
 
   it('should list deposits', function(done) {
-    expect(api.listDeposits()).toBeResolved(done);
+    expect(bitcodin.wallet.listDeposits()).toBeResolved(done);
   });
 
   it('should list deposits of a given page', function(done) {
     var page = 2;
-    expect(api.listDeposits(page)).toBeResolved(done);
+    expect(bitcodin.wallet.listDeposits(page)).toBeResolved(done);
   });
 
   it('should list bills', function(done) {
-    expect(api.listBills()).toBeResolved(done);
+    expect(bitcodin.wallet.listBills()).toBeResolved(done);
   });
 
   it('should list bills of a given page', function(done) {
     var page = 2;
-    expect(api.listBills(page)).toBeResolved(done);
+    expect(bitcodin.wallet.listBills(page)).toBeResolved(done);
   });
 
   it('should delete inputs', function(done) {
     for (var i = 0; i < inputIds.length; i++) {
-      expect(api.deleteInput(inputIds[i])).toBeResolved(done);
+      expect(bitcodin.input.delete(inputIds[i])).toBeResolved(done);
     }
   });
 
   it('should delete an output for a given output id', function(done) {
     for (var i = 0; i < outputIds.length; i++) {
-      expect(api.deleteOutput(outputIds[i])).toBeResolved(done);
+      expect(bitcodin.output.delete(outputIds[i])).toBeResolved(done);
     }
   });
 
   it('should delete encoding profiles', function(done) {
     for (var i = 0; i < encodingProfileIds.length; i++) {
-      expect(api.deleteEncodingProfile(encodingProfileIds[i])).toBeResolved(done);
+      expect(bitcodin.encodingProfile.delete(encodingProfileIds[i])).toBeResolved(done);
     }
   });
 });
