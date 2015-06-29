@@ -2,8 +2,7 @@
  * Copyright (C) 2015, bitmovin GmbH, All Rights Reserved
  *
  * Created on: 6/19/15
- * Author: Reinhard Grandl   <reinhard.grandl@bitmovin.net>
- *         Daniel Weinberger <daniel.weinberger@bitmovin.net>
+ * Author: Daniel Weinberger <daniel.weinberger@bitmovin.net>
  *
  * This source code and its use and distribution, is subject to the terms
  * and conditions of the applicable license agreement.
@@ -12,6 +11,8 @@
 module.exports = function(grunt) {
   var header = '/****************************************************************************\n' +
     '* Copyright (C) 2015, bitmovin GmbH, All Rights Reserved\n' +
+    '*\n' +
+    '* Author: Daniel Weinberger <daniel.weinberger@bitmovin.net>\n' +
     '*\n' +
     '* This source code and its use and distribution, is subject to the terms\n' +
     '* and conditions of the applicable license agreement.\n' +

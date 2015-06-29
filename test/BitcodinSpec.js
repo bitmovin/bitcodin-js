@@ -1,6 +1,9 @@
 /****************************************************************************
  * Copyright (C) 2015, bitmovin GmbH, All Rights Reserved
  *
+ * Created on: 6/19/15
+ * Author: Daniel Weinberger <daniel.weinberger@bitmovin.net>
+ *
  * This source code and its use and distribution, is subject to the terms
  * and conditions of the applicable license agreement.
  ****************************************************************************/
