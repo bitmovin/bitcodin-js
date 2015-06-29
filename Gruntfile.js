@@ -22,6 +22,12 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     settings: grunt.file.readJSON('test/resources/settings.json'),
 
+    uglify: {
+      dist: {
+        src:  'bin/bitcodin.js',
+        dest: 'bin/bitcodin.min.js'
+      }
+    },
     concat: {
       options: {
         separator: '\n',
@@ -118,16 +124,24 @@ module.exports = function(grunt) {
       all: {
         src: 'reports/coverage/lcov.info'
       }
+    },
+    clean: {
+      debug: ['bin/bitcodin.js']
     }
   });
 
 
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-string-replace');
+  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-coveralls');
 
   grunt.registerTask('test-with-coveralls', ['string-replace:insertApiKey', 'concat:debug', 'jasmine:dist', 'coveralls:all']);
   grunt.registerTask('test', ['string-replace:insertApiKey', 'concat:debug', 'jasmine:dist']);
+
+  grunt.registerTask('debug', ['concat']);
+  grunt.registerTask('release', ['concat', 'uglify', 'clean']);
 };
