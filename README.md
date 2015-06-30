@@ -18,6 +18,20 @@ When you've downloaded this package successfully, include the `bitcodin.min.js` 
 </head>
 ```
 
+# Usage
+
+Before you can start using the api you need to **set your API key.**
+
+Your API key can be found in the **settings of your bitcodin user account**, as shown in the figure below.
+
+![APIKey](http://www.bitcodin.com/wp-content/uploads/2015/06/api_key.png)
+
+An example how you can set the bitcodin API is shown in the following:
+
+```javascript
+var bitcodin = new Bitcodin('YOUR API KEY');
+```
+
 # Getting started
 First add the JS file to your project by adding a script tag or by using a require statement if RequireJS / AMD etc. is used. All calls return a promise for success or error case.
 
