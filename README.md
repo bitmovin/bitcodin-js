@@ -65,7 +65,7 @@ When the above mentioned objects are created a new transcoding job will be creat
       <li id="hls"></li>
     </ul>
     <script type="text/javascript">
-      var openMovieUrl = 'http://www.valkaama.com/download.php?target=media/movie/Valkaama_1080_p.mkv';
+      var openMovieUrl = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
       var bitcodin = new Bitcodin('YOUR API KEY');
 
       var information = document.getElementById('information');
