@@ -208,14 +208,14 @@ describe('BitcodinSpec', function() {
 
   it('should create a new transfer job', function(done) {
     var transferJobConfig = {
-      'jobId': 3162,
+      'jobId': 2846,
       'outputId': outputIds[0]
     };
     expect(bitcodin.job.transfer.create(transferJobConfig)).toBeResolved(done);
   });
 
   it('should get the transfer job details for a given id', function(done) {
-    expect(bitcodin.job.transfer.list(3162)).toBeResolved(done);
+    expect(bitcodin.job.transfer.list(2846)).toBeResolved(done);
   });
 
   it('should get the output statistics for the current calendar month', function(done) {
