@@ -235,7 +235,7 @@ describe('BitcodinSpec', function() {
       'lastName': 'Lederer',
       'address': 'Lakeside B01',
       'addressLineOptional': '',
-      'postalCode': 9020,
+      'postalCode': '9020',
       'city': 'Klagenfurt',
       'country': 'Austria',
       'vatNumber': 'ATU68021428'
@@ -248,7 +248,7 @@ describe('BitcodinSpec', function() {
       'firstName': 'Stefan',
       'lastName': 'Lederer',
       'address': 'Lakeside B01',
-      'postalCode': 9020,
+      'postalCode': '9020',
       'city': 'Klagenfurt',
       'country': 'Austria',
       'vatNumber': 'ATU68021428'
