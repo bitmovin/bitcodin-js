@@ -338,7 +338,7 @@ var Bitcodin = function(apiKey) {
        * @returns {Promise}
        */
       get: function() {
-        return restClient.get('wallet');
+        return restClient.get('payment/user');
       },
 
       /**
@@ -350,7 +350,7 @@ var Bitcodin = function(apiKey) {
        */
       listDeposits: function(pageNumber) {
         pageNumber = pageNumber !== undefined && !isNaN(pageNumber) ? '/' + pageNumber : '';
-        return restClient.get('wallet/deposits' + pageNumber);
+        return restClient.get('payment/deposits' + pageNumber);
       },
 
       /**
@@ -362,7 +362,7 @@ var Bitcodin = function(apiKey) {
        */
       listBills: function(pageNumber) {
         pageNumber = pageNumber !== undefined && !isNaN(pageNumber) ? '/' + pageNumber : '';
-        return restClient.get('wallet/bills' + pageNumber);
+        return restClient.get('payment/bills' + pageNumber);
       }
     }
   };
