@@ -189,6 +189,35 @@ describe('BitcodinSpec', function() {
     expect(promise).toBeResolved(done);
   });
 
+  it('should create a new job with drm configuration', function(done) {
+    var jobConfig = {
+      'inputId': inputIds[0],
+      'encodingProfileId': encodingProfileIds[0],
+      'manifestTypes': [
+        'mpd',
+        'm3u8'
+      ],
+      'speed': 'standard',
+      'drmConfig': {
+        system: 'widevine',
+        provider: 'widevine_test',
+        signingKey: '1ae8ccd0e7985cc0b6203a55855a1034afc252980e970ca90e5202689f947ab9',
+        signingIV: 'd58ce954203b7c9a9a9d467f59839249',
+        requestUrl: 'http://license.uat.widevine.com/cenc/getcontentkey',
+        contentId: '746573745f69645f4639465043304e4f',
+        method: 'mpeg_cenc'
+      }
+    };
+
+    var promise = bitcodin.job.create(jobConfig);
+
+    promise.then(function(data) {
+      jobIds.push(data.jobId);
+    });
+
+    expect(promise).toBeResolved(done);
+  });
+
   it('should list jobs', function(done) {
     expect(bitcodin.job.list()).toBeResolved(done);
   });
