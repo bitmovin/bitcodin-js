@@ -76,7 +76,8 @@ module.exports = function(grunt) {
     jasmine: {
       app: {
         src: [
-          'src/**/*.js'
+          'src/**/*.js',
+          '!src/Export.js'
         ],
         options: {
           helpers: 'test/helpers/**/*.js',
@@ -90,7 +91,8 @@ module.exports = function(grunt) {
       },
       dist: {
         src: [
-          'src/**/*.js'
+          'src/**/*.js',
+          '!src/Export.js'
         ],
         options: {
           helpers: 'dist/test/helpers/**/*.js',
