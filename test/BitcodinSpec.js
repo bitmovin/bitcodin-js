@@ -67,6 +67,19 @@ describe('BitcodinSpec', function() {
     expect(promise).toBeResolved(done);
   });
 
+  it('should create an input from a http input config object (which has multiple audio streams)', function(done) {
+    var httpInputConfig = {
+      url: 'http://bitbucketireland.s3.amazonaws.com/Sintel-two-audio-streams-short.mkv'
+    };
+    var promise = bitcodin.input.create(httpInputConfig);
+
+    promise.then(function(data) {
+      inputIds.push(data.inputId);
+    });
+
+    expect(promise).toBeResolved(done);
+  });
+
   it('should analyze an input', function(done) {
     expect(bitcodin.input.analayze(inputIds[0])).toBeResolved(done);
   });
@@ -146,6 +159,39 @@ describe('BitcodinSpec', function() {
         {
           "defaultStreamId": 0,
           "bitrate": 256000
+        }
+      ]
+    };
+    var promise = bitcodin.encodingProfile.create(encodingProfile);
+
+    promise.then(function(data) {
+      encodingProfileIds.push(data.encodingProfileId);
+    });
+
+    expect(promise).toBeResolved(done);
+  });
+
+  it('should create a new encoding profile for inputs with multiple audio streams', function(done) {
+    var encodingProfile = {
+      "name": "bitcodin Encoding Profile",
+      "videoStreamConfigs": [
+        {
+          "defaultStreamId": 0,
+          "bitrate": 512000,
+          "profile": "Main",
+          "preset": "Standard",
+          "height": 480,
+          "width": 640
+        }
+      ],
+      "audioStreamConfigs": [
+        {
+          "defaultStreamId": 0,
+          "bitrate": 192000
+        },
+        {
+          "defaultStreamId": 1,
+          "bitrate": 192000
         }
       ]
     };
@@ -287,6 +333,38 @@ describe('BitcodinSpec', function() {
         "key": "cab5b529ae28d5cc5e3e7bc3fd4a544d",
         "iv": "08eecef4b026deec395234d94218273d"
       }
+    };
+
+    var promise = bitcodin.job.create(jobConfig);
+
+    promise.then(function(data) {
+      jobIds.push(data.jobId);
+    });
+
+    expect(promise).toBeResolved(done);
+  });
+
+  it('should create a job with an input which has multiple audio streams', function(done) {
+    var jobConfig = {
+      'inputId': inputIds[2],
+      'encodingProfileId': encodingProfileIds[1],
+      'manifestTypes': [
+        'mpd',
+        'm3u8'
+      ],
+      'speed': 'standard',
+      'audioMetaData': [
+        {
+          'defaultStreamId': 0,
+          'language': 'de',
+          'label': 'Just Sound'
+        },
+        {
+          'defaultStreamId': 1,
+          'language': 'en',
+          'label': 'Sound and Voice'
+        }
+      ]
     };
 
     var promise = bitcodin.job.create(jobConfig);
