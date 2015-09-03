@@ -37,7 +37,7 @@ describe('RestClientSpec', function() {
 
   it('should resolve an existing URL w/o JSON object with the response message', function(done) {
     var url = '';
-    client = new RestClient('http://portal.bitcodin.com/');
+    client = new RestClient('http://enable-cors.org/');
 
     expect(client.get(url)).toBeResolved(done);
   });
