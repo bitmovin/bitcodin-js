@@ -36,7 +36,7 @@ describe('BitcodinSpec', function() {
   });
 
   it('should create an input from a URL string', function(done) {
-    var url = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
+    var url = 'http://bitbucketireland.s3.amazonaws.com/Sintel-original-short.mkv';
     var promise = bitcodin.input.create(url);
 
     promise.then(function(data) {
@@ -56,7 +56,7 @@ describe('BitcodinSpec', function() {
 
   it('should create an input from a http input config object', function(done) {
     var httpInputConfig = {
-      url: 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv'
+      url: 'http://bitbucketireland.s3.amazonaws.com/Sintel-original-short.mkv'
     };
     var promise = bitcodin.input.create(httpInputConfig);
 
@@ -151,8 +151,8 @@ describe('BitcodinSpec', function() {
           "bitrate": 1024000,
           "profile": "Main",
           "preset": "Standard",
-          "height": 480,
-          "width": 204
+          "height": 204,
+          "width": 480
         }
       ],
       "audioStreamConfigs": [
@@ -180,8 +180,8 @@ describe('BitcodinSpec', function() {
           "bitrate": 512000,
           "profile": "Main",
           "preset": "Standard",
-          "height": 480,
-          "width": 640
+          "height": 204,
+          "width": 480
         }
       ],
       "audioStreamConfigs": [
