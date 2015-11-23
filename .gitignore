@@ -5,3 +5,4 @@ debug
 test/resources/settings.json
 dist/
 reports/
+settings.json
