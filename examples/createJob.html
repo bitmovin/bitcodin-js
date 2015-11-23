@@ -1,99 +1,96 @@
 <html>
-  <head>
+<head>
     <script type="text/javascript" src="vendor/bitcodin-js/bin/bitcodin.min.js"></script>
-  </head>
-  <body>
-    <p id="information">Creating transcoding Job...</p>
-    <ul id="urllist" hidden>
-      <li id="mpd"></li>
-      <li id="hls"></li>
-    </ul>
-    <script type="text/javascript">
-      var openMovieUrl = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
-      var bitcodin = new Bitcodin('YOUR API KEY');
+</head>
+<body>
+<p id="information">Creating transcoding Job...</p>
+<ul id="urllist" hidden>
+    <li id="mpd"></li>
+    <li id="hls"></li>
+</ul>
+<script type="text/javascript">
+    var openMovieUrl = 'http://eu-storage.bitcodin.com/inputs/Sintel.2010.720p.mkv';
+    var bitcodin = new Bitcodin('INSERT YOUR API KEY HERE');
 
-      var information = document.getElementById('information');
-      var urllist = document.getElementById('urllist');
-      var mpdurl = document.getElementById('mpd');
-      var hlsurl = document.getElementById('hls');
+    var information = document.getElementById('information');
+    var urllist = document.getElementById('urllist');
+    var mpdurl = document.getElementById('mpd');
+    var hlsurl = document.getElementById('hls');
 
-      var createInputPromise = null;
-      var createEncodingProfilePromise = null;
-
-      var createLink = function(url) {
+    var createLink = function (url) {
         var link = '<a href="' + url + '">' + url + '</a>';
         return link;
-      };
+    };
 
-      // Create bitcodin Input 
-      createInputPromise = bitcodin.input.create(openMovieUrl);
+    // Create bitcodin Input
+    var createInputPromise = bitcodin.input.create(openMovieUrl);
 
-      // Create bitcodin encoding profile. The ApiAry documentation which explains how such a 
-      // encoding profile should look like can be found at the link below
-      // http://docs.bitcodinrestapi.apiary.io/#reference/encoding-profiles/create-an-encoding-profile
-      var encodingProfileConfiguration = {
+    // Create bitcodin encoding profile. The ApiAry documentation which explains how such a
+    // encoding profile should look like can be found at the link below
+    // http://docs.bitcodinrestapi.apiary.io/#reference/encoding-profiles/create-an-encoding-profile
+    var encodingProfileConfiguration = {
         "name": "bitcodin Encoding Profile",
         "videoStreamConfigs": [
-          {
-            "defaultStreamId": 0,
-            "bitrate": 1024000,
-            "profile": "Main",
-            "preset": "Standard",
-            "height": 768,
-            "width": 1366
-          }
+            {
+                "defaultStreamId": 0,
+                "bitrate": 1024000,
+                "profile": "Main",
+                "preset": "Standard",
+                "height": 768,
+                "width": 1366
+            }
         ],
         "audioStreamConfigs": [
-          {
-            "defaultStreamId": 0,
-            "bitrate": 256000
-          }
+            {
+                "defaultStreamId": 0,
+                "bitrate": 256000
+            }
         ]
-      };
+    };
 
-      createEncodingProfilePromise = bitcodin.encodingProfile.create(encodingProfileConfiguration);
+    var  createEncodingProfilePromise = bitcodin.encodingProfile.create(encodingProfileConfiguration);
 
-      // Create a bitcodin job which transcodes the video to DASH and HLS. The ApiAry documentation which explains 
-      // how a job configuration object should look like can be found at the following link below
-      // http://docs.bitcodinrestapi.apiary.io/#reference/jobs/job/create-a-job
+    // Create a bitcodin job which transcodes the video to DASH and HLS. The ApiAry documentation which explains
+    // how a job configuration object should look like can be found at the following link below
+    // http://docs.bitcodinrestapi.apiary.io/#reference/jobs/job/create-a-job
 
-      var jobConfiguration = { 
+    var jobConfiguration = {
         "inputId": -1,
         "encodingProfileId": -1,
-        "manifestTypes":["mpd", "m3u8"]
-      };
+        "manifestTypes": ["mpd", "m3u8"]
+    };
 
-      Promise.all([createInputPromise, createEncodingProfilePromise])
-        .then(
-          function(result) {
-            console.log('Successfully created input and encoding profile');
-            jobConfiguration.inputId = result[0].inputId;
-            jobConfiguration.encodingProfileId = result[1].encodingProfileId;
-            bitcodin.job.create(jobConfiguration)
-              .then(
-                function(newlyCreatedJob) {
-                  console.log('Successfully created a new transcoding job:');
-                  console.log(newlyCreatedJob);
-                  information.innerHTML = 'Successfully created Transcoding Job!';
-                  mpdurl.innerHTML = createLink(newlyCreatedJob.manifestUrls.mpdUrl);
-                  hlsurl.innerHTML = createLink(newlyCreatedJob.manifestUrls.m3u8Url);
-                  urllist.removeAttribute('hidden');
-                }, 
-                function(error) {
-                  console.log('Error while creating a new transcoding job:');
-                  console.log(error);
-                  information.innerHTML = 'Creating a new transcoding job failed!';
-                }
-              );
-          }, 
-          function(error) {
-            console.log('Error while creating input and/or encoding profile:');
-            console.log(error);
-            information.innerHTML = 'Error while creating input and/or encoding profile';
-          }
-        );
+    Promise.all([createInputPromise, createEncodingProfilePromise])
+            .then(
+                    function (result) {
+                        console.log('Successfully created input and encoding profile');
+                        jobConfiguration.inputId = result[0].inputId;
+                        jobConfiguration.encodingProfileId = result[1].encodingProfileId;
+                        bitcodin.job.create(jobConfiguration)
+                                .then(
+                                        function (newlyCreatedJob) {
+                                            console.log('Successfully created a new transcoding job:');
+                                            console.log(newlyCreatedJob);
+                                            information.innerHTML = 'Successfully created Transcoding Job!';
+                                            mpdurl.innerHTML = createLink(newlyCreatedJob.manifestUrls.mpdUrl);
+                                            hlsurl.innerHTML = createLink(newlyCreatedJob.manifestUrls.m3u8Url);
+                                            urllist.removeAttribute('hidden');
+                                        },
+                                        function (error) {
+                                            console.log('Error while creating a new transcoding job:');
+                                            console.log(error);
+                                            information.innerHTML = 'Creating a new transcoding job failed!';
+                                        }
+                                );
+                    },
+                    function (error) {
+                        console.log('Error while creating input and/or encoding profile:');
+                        console.log(error);
+                        information.innerHTML = 'Error while creating input and/or encoding profile';
+                    }
+            );
 
-    </script>
-  </body>
+</script>
+</body>
 </html>
 
