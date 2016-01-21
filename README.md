@@ -14,7 +14,7 @@ When you've downloaded this package successfully, include the `bitcodin.min.js` 
 
 ```html
 <head>
-  <script type="text/javascript" src="bitcodin-js/bin/bitcodin.min.js></script>
+  <script type="text/javascript" src="bitcodin-js/bin/bitcodin.min.js"></script>
 </head>
 ```
 
