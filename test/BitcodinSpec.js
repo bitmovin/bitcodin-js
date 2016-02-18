@@ -150,7 +150,7 @@ describe('BitcodinSpec', function() {
           "defaultStreamId": 0,
           "bitrate": 1024000,
           "profile": "Main",
-          "preset": "Standard",
+          "preset": "premium",
           "height": 204,
           "width": 480
         }
@@ -179,7 +179,7 @@ describe('BitcodinSpec', function() {
           "defaultStreamId": 0,
           "bitrate": 512000,
           "profile": "Main",
-          "preset": "Standard",
+          "preset": "premium",
           "height": 204,
           "width": 480
         }
