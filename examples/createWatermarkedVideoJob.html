@@ -1,9 +1,9 @@
 <html>
 <head>
-    <script type="text/javascript" src="vendor/bitcodin-js/bin/bitcodin.min.js"></script>
+    <script type="text/javascript" src="../bin/bitcodin.min.js"></script>
 </head>
 <body>
-<p id="information">Creating transcoding Job...</p>
+<p id="information">Creating watermarked encoding job...</p>
 <ul id="urllist" hidden>
     <li id="mpd"></li>
     <li id="hls"></li>
@@ -61,7 +61,12 @@
                 "defaultStreamId": 0,
                 "bitrate": 256000
             }
-        ]
+        ],
+        "watermarkConfig": {
+            "bottom": 200,
+            "right": 100,
+            "image": 'http://bitdash-a.akamaihd.net/webpages/bitcodin/images/bitcodin-bitmovin-logo-small.png'
+        }
     };
 
     var  createEncodingProfilePromise = bitcodin.encodingProfile.create(encodingProfileConfiguration);
@@ -73,7 +78,8 @@
     var jobConfiguration = {
         "inputId": -1,
         "encodingProfileId": -1,
-        "manifestTypes": ["mpd", "m3u8"]
+        "manifestTypes": ["mpd", "m3u8"],
+        "speed": "standard"
     };
 
     Promise.all([createInputPromise, createEncodingProfilePromise])
@@ -85,17 +91,17 @@
                         bitcodin.job.create(jobConfiguration)
                                 .then(
                                         function (newlyCreatedJob) {
-                                            console.log('Successfully created a new transcoding job:');
+                                            console.log('Successfully created a new encoding job with watermark config:');
                                             console.log(newlyCreatedJob);
-                                            information.innerHTML = 'Successfully created Transcoding Job!';
+                                            information.innerHTML = 'Successfully created encoding job!';
                                             mpdurl.innerHTML = createLink(newlyCreatedJob.manifestUrls.mpdUrl);
                                             hlsurl.innerHTML = createLink(newlyCreatedJob.manifestUrls.m3u8Url);
                                             urllist.removeAttribute('hidden');
                                         },
                                         function (error) {
-                                            console.log('Error while creating a new transcoding job:');
+                                            console.log('Error while creating a new encoding job:');
                                             console.log(error);
-                                            information.innerHTML = 'Creating a new transcoding job failed!';
+                                            information.innerHTML = 'Creating a new encoding job failed!';
                                         }
                                 );
                     },

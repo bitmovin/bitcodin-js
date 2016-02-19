@@ -14,7 +14,7 @@ When you've downloaded this package successfully, include the `bitcodin.min.js` 
 
 ```html
 <head>
-  <script type="text/javascript" src="bitcodin-js/bin/bitcodin.min.js></script>
+  <script type="text/javascript" src="bitcodin-js/bin/bitcodin.min.js"></script>
 </head>
 ```
 
@@ -94,7 +94,7 @@ When the above mentioned objects are created a new transcoding job will be creat
             "defaultStreamId": 0,
             "bitrate": 1024000,
             "profile": "Main",
-            "preset": "Standard",
+            "preset": "premium",
             "height": 768,
             "width": 1366
           }
