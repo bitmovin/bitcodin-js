@@ -394,6 +394,16 @@ var Bitcodin = function (apiKey) {
                 pageNumber = pageNumber !== undefined && !isNaN(pageNumber) ? '/' + pageNumber : '';
                 return restClient.get('payment/bills' + pageNumber);
             }
+        },
+        thumbnail: {
+            create: function(thumbnailConfig) {
+                return restClient.post('thumbnail', thumbnailConfig)
+            }
+        },
+        sprite: {
+            create: function(spriteConfig) {
+                return restClient.post('sprite', spriteConfig)
+            }
         }
     };
 };
