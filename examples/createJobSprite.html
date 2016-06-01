@@ -105,19 +105,46 @@
                                             spriteConfig.height = 240;
                                             spriteConfig.width = 320;
                                             spriteConfig.distance = 5;
+                                            spriteConfig.async = true;
 
                                             bitcodin.sprite.create(spriteConfig).then(
-                                                    function(createdSprite){
-                                                        console.log("Successfully created Sprite!");
-                                                        information.innerHTML = "Successfully created Sprite!";
-                                                        vttUrl.innerHTML = createLink(createdSprite.vttUrl);
-                                                        spriteUrl.innerHTML = createLink(createdSprite.spriteUrl)
+                                                    function(response){
+                                                        var poll = function() {
+                                                            setTimeout(function () {
+                                                                bitcodin.sprite.get(response.id).then(
+                                                                        function (response) {
+                                                                            if (response.state == 'FINISHED') {
+                                                                                console.log('Successfully created a new sprite:');
+                                                                                console.log(response);
 
+                                                                                information.innerHTML = 'Successfully created a new sprite!';
+                                                                                vttUrl.innerHTML = createLink(response.vttUrl);
+                                                                                spriteUrl.innerHTML = createLink(response.spriteUrl)
+                                                                            }
+                                                                            else if (response.state == 'ERROR') {
+                                                                                console.log("Error while creating sprite!");
+                                                                                console.log(error);
+                                                                                information.innerHTML = 'Error while creating sprite!';
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                poll();
+                                                                            }
+                                                                        },
+                                                                        function (error) {
+                                                                            console.log("Error while creating sprite!");
+                                                                            console.log(error);
+                                                                            information.innerHTML = 'Error while creating sprite!';
+                                                                        }
+                                                                )
+                                                            }, 5000);
+                                                        };
+                                                        poll();
                                                     },
                                                     function(error){
                                                         console.log("Error creating sprite!");
                                                         console.log(error);
-                                                        information.innerHTML = 'Creating thumbnail failed!';
+                                                        information.innerHTML = 'Creating sprite failed!';
                                                     }
                                             )
 

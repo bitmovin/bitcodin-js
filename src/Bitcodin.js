@@ -396,11 +396,47 @@ var Bitcodin = function (apiKey) {
             }
         },
         thumbnail: {
+            /**
+             *
+             * @link http://docs.bitcodinrestapi.apiary.io/#reference/thumbnails/thumbnail/get-thumbnail
+             *
+             * @param {String} id
+             * @returns {Promise}
+             */
+            get: function (id) {
+                return restClient.get('thumbnail/' + id);
+            },
+
+            /**
+             *
+             * @link http://docs.bitcodinrestapi.apiary.io/#reference/thumbnails/thumbnail/create-a-thumbnail-async
+             *
+             * @param {Object} thumbnailConfig
+             * @returns {Promise}
+             */
             create: function(thumbnailConfig) {
                 return restClient.post('thumbnail', thumbnailConfig)
             }
         },
         sprite: {
+            /**
+             *
+             * @link http://docs.bitcodinrestapi.apiary.io/#reference/thumbnails/thumbnail/get-sprite
+             *
+             * @param {String} id
+             * @returns {Promise}
+             */
+            get: function (id) {
+                return restClient.get('sprite/' + id);
+            },
+
+            /**
+             *
+             * @link http://docs.bitcodinrestapi.apiary.io/#reference/thumbnails/sprite/create-a-sprite-async
+             *
+             * @param {Object} spriteConfig
+             * @returns {Promise}
+             */
             create: function(spriteConfig) {
                 return restClient.post('sprite', spriteConfig)
             }
