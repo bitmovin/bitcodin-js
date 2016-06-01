@@ -89,33 +89,62 @@
                                         function (newlyCreatedJob) {
                                             console.log('Successfully created a new transcoding job:');
                                             console.log(newlyCreatedJob);
-                                            information.innerHTML = 'Successfully created Transcoding Job!';
+                                            information.innerHTML = 'Successfully created transcoding Job!';
                                             mpdurl.innerHTML = createLink(newlyCreatedJob.manifestUrls.mpdUrl);
                                             hlsurl.innerHTML = createLink(newlyCreatedJob.manifestUrls.m3u8Url);
-                                            urllist.removeAttribute('hidden');
 
+                                            information.innerHTML = 'Creating thumbnail!';
                                             /*
                                              Here create the Thumbnail
                                              */
-                                            var thumbnailConfig = {};
-                                            thumbnailConfig.jobId = newlyCreatedJob.jobId;
-                                            thumbnailConfig.height = 320;
-                                            thumbnailConfig.position = 25;
+                                            var thumbnailConfiguration = {};
+                                            thumbnailConfiguration.jobId = newlyCreatedJob.jobId;
+                                            thumbnailConfiguration.height = 320;
+                                            thumbnailConfiguration.position = 50;
+                                            thumbnailConfiguration.async = true; //important notice: synchronous thumbnail creation is not supported
 
-                                            bitcodin.thumbnail.create(thumbnailConfig).then(
-                                                    function(createdThumbnail){
-                                                        console.log("Successfully created Thumbnail!");
-                                                        information.innerHTML = "Successfully created thumbnail!";
-                                                        thumbnailUrl.innerHTML = createLink(createdThumbnail.thumbnailUrl);
-                                                    },
-                                                    function(error){
-                                                        console.log("Error creating thumbnail");
-                                                        console.log(error);
-                                                        information.innerHTML = 'Creating thumbnail failed!';
-                                                    }
-                                            )
+                                            // Create thumbnail from job
+                                            var createThumbnailPromise = bitcodin.thumbnail.create(thumbnailConfiguration);
+                                            createThumbnailPromise
+                                                    .then(function(response){
+                                                                var poll = function() {
+                                                                    setTimeout(function () {
+                                                                        bitcodin.thumbnail.get(response.id).then(
+                                                                                function (response) {
+                                                                                    if (response.state == 'FINISHED') {
+                                                                                        console.log('Successfully created a new thumbnail:');
+                                                                                        console.log(response);
 
-
+                                                                                        information.innerHTML = 'Successfully created a new thumbnail!';
+                                                                                        thumbnailUrl.innerHTML = createLink(response.thumbnailUrl);
+                                                                                        urllist.removeAttribute('hidden');
+                                                                                    }
+                                                                                    else if (response.state == 'ERROR') {
+                                                                                        console.log("Error while creating thumbnail!");
+                                                                                        console.log(error);
+                                                                                        information.innerHTML = 'Error while creating thumbnail!';
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        poll();
+                                                                                    }
+                                                                                },
+                                                                                function (error) {
+                                                                                    console.log("Error while creating thumbnail!");
+                                                                                    console.log(error);
+                                                                                    information.innerHTML = 'Error while creating thumbnail!';
+                                                                                }
+                                                                        )
+                                                                    }, 5000);
+                                                                };
+                                                                poll();
+                                                            },
+                                                            function(error){
+                                                                console.log("Error while creating thumbnail!");
+                                                                console.log(error);
+                                                                information.innerHTML = 'Error while creating thumbnail!';
+                                                            }
+                                                    );
                                         },
                                         function (error) {
                                             console.log('Error while creating a new transcoding job:');
