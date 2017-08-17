@@ -3,6 +3,6 @@ This API client works with our previous encoding service available at https://ap
 
 ---
 
-**Bitmovin Ruby API Client**: [https://github.com/bitmovin/bitmovin-ruby](https://github.com/bitmovin/bitmovin-ruby) 
+**Bitmovin Javascript API Client**: [https://github.com/bitmovin/bitmovin-javascript](https://github.com/bitmovin/bitmovin-javascript) 
 
 **Bitmovin API documentation:** [https://developer.bitmovin.com/hc](https://developer.bitmovin.com/hc) 
